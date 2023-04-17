@@ -49,7 +49,7 @@ public class scrt : MonoBehaviour
 
         // Animar el personaje
         //animator.SetFloat("Speed", Mathf.Abs(move));
-
+         
         // Saltar si el personaje está en el suelo y se pulsa la tecla de salto
         if (Input.GetKeyDown(KeyCode.Space))
         {
