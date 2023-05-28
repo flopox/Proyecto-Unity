@@ -1,85 +1,58 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
+public class scrt : MonoBehaviour
+{
+    public float velocidad;
+    public float salto;
+    public LayerMask capaSuelo; 
 
-public class scrt : MonoBehaviour {
-
-    public float speed = 5f; // Velocidad de movimiento
-    public float jumpForce = 5f; // Fuerza de salto
-    public float groundCheckDistance = 0.1f; // Distancia a la que se comprueba si el personaje está en el suelo
-    public LayerMask groundMask; // Capa del suelo
-
-
-    private Rigidbody2D rb;
-    private bool isGrounded;
-    private SpriteRenderer sp;
-    bool canJumpForce;
-    bool salto;
-    
-
-    private void FixedUpdate() {
-    if (canJumpForce && salto){
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-            salto = false;
-        }
-    }
+    private Rigidbody2D rigibody;
+    private BoxCollider2D BoxCollider;
+    private bool mirandoDerecha;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        sp = GetComponent<SpriteRenderer>();
+        rigibody = GetComponent<Rigidbody2D>();
+        BoxCollider = GetComponent<BoxCollider2D>();
+    }
+    // Update is called once per frame
+    void Update()
+    {
+        MovimientoH();
+        SaltarY();
     }
 
-    private void Update()
+    bool EstaEnElSuelo()
     {
-        // Comprobar si el personaje está en el suelo
-        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, groundMask);
-
-        // Mover el personaje
-        float move = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(move * speed, rb.velocity.y);
-
-        // Girar el personaje en la dirección del movimiento
-        if (move > 0)
-        {
-            sp.flipX = false; 
-        }
-        else if (move < 0)
-        {
-            sp.flipX = true;
-        }
-
-        // Animar el personaje
-        //animator.SetFloat("Speed", Mathf.Abs(move));
-
-        // Saltar si el personaje está en el suelo y se pulsa la tecla de salto
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            salto = true;
-        }
+        RaycastHit2D raycastHit = Physics2D.BoxCast(BoxCollider.bounds.center, new Vector2(BoxCollider.bounds.size.x, BoxCollider.bounds.size.y), 0f, Vector2.down, 0.2f, capaSuelo);
+        return raycastHit.collider != null; 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    void SaltarY()
     {
-        // Detener el movimiento si el personaje colisiona con una pared
-        if (collision.gameObject.tag == "Wall")
+        if(Input.GetKeyDown(KeyCode.Space) && EstaEnElSuelo())
         {
-            rb.velocity = Vector2.zero;
+            rigibody.AddForce(Vector2.up * salto, ForceMode2D.Impulse);
         }
     }
-    void OnTriggerEnter2D(Collider2D col)
+    
+    void MovimientoH()
     {
-        Piso piso = col.GetComponent<Piso>();
-        if (piso)
-        {
-            canJumpForce = true;
-        }
+        float inputMovimiento = Input.GetAxis("Horizontal");
+        
+        rigibody.velocity = new Vector2(inputMovimiento * velocidad, rigibody.velocity.y);
+
+        Orientacion(inputMovimiento);
     }
-    void OnTriggerExit2D(Collider2D col)
+
+    void Orientacion(float inputMovimiento)
     {
-        Piso piso = col.GetComponent<Piso>();
-        if (piso)
+        if((mirandoDerecha == false && inputMovimiento < 0) || (mirandoDerecha == true && inputMovimiento > 0))
         {
-            canJumpForce = false;
-        }
+            mirandoDerecha = !mirandoDerecha;
+            transform.localScale = new Vector2(-transform.localScale.x, transform.localScale.y); 
+        } 
     }
 }
