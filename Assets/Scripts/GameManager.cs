@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 
     public void SumarPuntos(int puntosASumar)
     {
-        puntosTotales = puntosTotales + puntosASumar;
+        puntosTotales += puntosASumar;
         Debug.Log(puntosTotales);
     }
 }

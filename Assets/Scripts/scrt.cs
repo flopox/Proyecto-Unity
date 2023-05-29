@@ -6,7 +6,9 @@ public class scrt : MonoBehaviour
 {
     public float velocidad;
     public float salto;
-    public LayerMask capaSuelo; 
+    public LayerMask capaSuelo;
+    public AudioManager audioManager;
+    public AudioClip sonidoSalto;
 
     private Rigidbody2D rigibody;
     private BoxCollider2D BoxCollider;
@@ -35,6 +37,7 @@ public class scrt : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space) && EstaEnElSuelo())
         {
             rigibody.AddForce(Vector2.up * salto, ForceMode2D.Impulse);
+            audioManager.ReproducirSonido(sonidoSalto); 
         }
     }
     

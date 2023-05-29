@@ -5,7 +5,7 @@ using UnityEngine;
 public class coin : MonoBehaviour
 {
 
-    public int valor = 1;
+    public int valor = 0;
     public GameManager gameManager;
 
     private void OnTriggerEnter2D(Collider2D collision)
