@@ -11,14 +11,14 @@ public class CameraController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //tama�oCamara = Camera.main.ortographicSize;
-        //alturaPantalla = tama�oCamara * 2;
+        //tamañoCamara = Camera.main.ortographicSize;
+        //alturaPantalla = tamañoCamara * 2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float ypromedio = (personaje.position.y / 100000);
+        float ypromedio = (personaje.position.x / 1000000);
         Vector3 newPosition = new Vector3(personaje.position.x, transform.position.y, transform.position.z);
         transform.position = Vector3.Lerp(transform.position, newPosition, 2f);
     }
