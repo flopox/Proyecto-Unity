@@ -6,9 +6,13 @@ public class PlayerScript : MonoBehaviour
 {
     bool isLeft = false;
     bool isRight = false;
+    bool isJump = false; 
+    bool canJump = true;
 
     public Rigidbody2D rb;
-    public float speedForce;
+    public float velocidad;
+    public float salto;
+    public float waitJump;
 
     public void clickLeft()
     {
@@ -27,15 +31,31 @@ public class PlayerScript : MonoBehaviour
         isRight = false;
     }
 
+    public void ClickJump()
+    {
+        isJump = true;
+    }
+
     private void FixedUpdate()
     {
         if (isLeft) 
         {
-            rb.AddForce(new Vector2(-speedForce, 0) * Time.deltaTime);
+            rb.AddForce(new Vector2(-velocidad, 0) * Time.deltaTime);
         }
         if (isRight)
         {
-            rb.AddForce(new Vector2(speedForce, 0) * Time.deltaTime);
+            rb.AddForce(new Vector2(velocidad, 0) * Time.deltaTime);
         }
+        if (isJump && canJump)
+        {
+            isJump = false;
+            rb.AddForce(new Vector2(0, salto));
+            canJump = false;
+            Invoke("waitToJump", waitJump);
+        }
+    }
+    void waitToJump()
+    {
+        canJump = true;
     }
 }
