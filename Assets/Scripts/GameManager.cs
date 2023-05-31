@@ -30,7 +30,7 @@ public class GameManager : MonoBehaviour
 
         if(vidas == 0)
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(2);
         }
 
         hud.DesactivarVidas(vidas);
