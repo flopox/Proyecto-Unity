@@ -13,6 +13,8 @@ public class PlayerScript : MonoBehaviour
     public float velocidad;
     public float salto;
     public float waitJump;
+    public AudioManager audioManager;
+    public AudioClip sonidoSalto;
 
     public void clickLeft()
     {
@@ -52,6 +54,7 @@ public class PlayerScript : MonoBehaviour
             rb.AddForce(new Vector2(0, salto));
             canJump = false;
             Invoke("waitToJump", waitJump);
+            audioManager.ReproducirSonido(sonidoSalto);
         }
     }
     void waitToJump()
