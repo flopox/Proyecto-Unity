@@ -400,7 +400,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 215072612}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 144, y: 217, z: -10}
+  m_LocalPosition: {x: 144.5, y: 209.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3294,7 +3294,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963298848}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 144, y: 217, z: -10}
+  m_LocalPosition: {x: 144.5, y: 209.7, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4174,6 +4174,7 @@ GameObject:
   - component: {fileID: 1952304407}
   - component: {fileID: 1952304409}
   - component: {fileID: 1952304411}
+  - component: {fileID: 1952304412}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -4241,7 +4242,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1952304400}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 144, y: 117, z: 0}
+  m_LocalPosition: {x: 144.5, y: 109.7, z: 0}
   m_LocalScale: {x: 1.3388166, y: 1.5452546, z: 0.8203}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4359,6 +4360,27 @@ MonoBehaviour:
   audioManager: {fileID: 311017204}
   sonidoSalto: {fileID: 8300000, guid: 4326069c1d26b9d4b8d90d027815cede, type: 3}
   sonidoMovimiento: {fileID: 8300000, guid: 14dd2020251b1984bbcce528eb7f2372, type: 3}
+--- !u!95 &1952304412
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1952304400}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c61311b1a72daa241bcf803e2c036bde, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1988072709
 GameObject:
   m_ObjectHideFlags: 0

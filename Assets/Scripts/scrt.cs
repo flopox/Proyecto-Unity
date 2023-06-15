@@ -14,11 +14,13 @@ public class scrt : MonoBehaviour
     private Rigidbody2D rigibody;
     private BoxCollider2D BoxCollider;
     private bool mirandoDerecha;
+    private Animator animator;
 
     private void Start()
     {
         rigibody = GetComponent<Rigidbody2D>();
         BoxCollider = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -54,6 +56,12 @@ public class scrt : MonoBehaviour
             Orientacion(inputMovimiento);
 
             audioManager.ReproducirSonido(sonidoMovimiento);
+
+            animator.SetBool("isRunning", true );
+        }
+        else
+        {
+            animator.SetBool("isRunning", false );
         }
     }
 
