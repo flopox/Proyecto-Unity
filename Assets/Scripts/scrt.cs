@@ -23,7 +23,6 @@ public class scrt : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         MovimientoH();
@@ -57,11 +56,11 @@ public class scrt : MonoBehaviour
 
             audioManager.ReproducirSonido(sonidoMovimiento);
 
-            animator.SetBool("isRunning", true );
+//            animator.SetBool("isRunning", true );
         }
         else
         {
-            animator.SetBool("isRunning", false );
+//            animator.SetBool("isRunning", false );
         }
     }
 
