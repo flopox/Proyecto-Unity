@@ -6,59 +6,111 @@ public class PlayerScript : MonoBehaviour
 {
     bool isLeft = false;
     bool isRight = false;
-    bool isJump = false; 
-    bool canJump = true;
+    bool isJump = false;
+    bool isJumping = false;
 
     public Rigidbody2D rb;
+
     public float velocidad;
     public float salto;
-    public float waitJump;
+
+    public LayerMask capaSuelo;
+
     public AudioManager audioManager;
     public AudioClip sonidoSalto;
+    // public AudioClip sonidoMovimiento;
+    public AudioClip inicioJuegoAudio;
+
+    public Animator anim;
+
+    public SpriteRenderer spr;
+
+    private AudioSource audioSource;
+    private BoxCollider2D boxCollider;
+
+    private void Start()
+    {
+        boxCollider = GetComponent<BoxCollider2D>();
+    }
+
+    void Update()
+    {
+        ClickJump();
+    }
 
     public void clickLeft()
     {
         isLeft = true;
-    } 
+        anim.SetTrigger("run");
+        spr.flipX = true;
+    }
+
     public void releaseLeft()
     {
         isLeft = false;
-    } 
+        anim.SetTrigger("idle");
+    }
+
     public void clickRight()
     {
         isRight = true;
+        anim.SetTrigger("run");
+        spr.flipX = false;
     }
+
     public void releaseRight()
     {
         isRight = false;
+        anim.SetTrigger("idle");
     }
 
     public void ClickJump()
     {
-        isJump = true;
+        if (!isJumping)
+        {
+            isJumping = true;
+            isJump = true;
+        }
+    }
+
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+
+        if (inicioJuegoAudio != null)
+        {
+            audioSource.clip = inicioJuegoAudio;
+            audioSource.Play();
+        }
+    }
+
+    bool EstaEnElSuelo()
+    {
+        RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, new Vector2(boxCollider.bounds.size.x, boxCollider.bounds.size.y), 0f, Vector2.down, 0.2f, capaSuelo);
+        return raycastHit.collider != null;
     }
 
     private void FixedUpdate()
     {
-        if (isLeft) 
+        if (isLeft)
         {
             rb.AddForce(new Vector2(-velocidad, 0) * Time.deltaTime);
+            // audioManager.ReproducirSonido(sonidoMovimiento);
         }
+
         if (isRight)
         {
             rb.AddForce(new Vector2(velocidad, 0) * Time.deltaTime);
+            // audioManager.ReproducirSonido(sonidoMovimiento);
         }
-        if (isJump && canJump)
+
+        if (isJump && EstaEnElSuelo())
         {
-            isJump = false;
-            rb.AddForce(new Vector2(0, salto));
-            canJump = false;
-            Invoke("waitToJump", waitJump);
+            isJumping = true; // Establecer isJumping en true antes de saltar
+            rb.AddForce(Vector2.up * salto, ForceMode2D.Impulse);
             audioManager.ReproducirSonido(sonidoSalto);
         }
-    }
-    void waitToJump()
-    {
-        canJump = true;
+
+        isJumping = true; // Restablecer isJumping a false antes de verificar el salto
     }
 }
