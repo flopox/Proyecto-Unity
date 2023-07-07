@@ -6,8 +6,8 @@ public class PlayerScript : MonoBehaviour
 {
     bool isLeft = false;
     bool isRight = false;
-    bool isJump = false;
     bool isJumping = false;
+    bool isFloor = false;
 
     public Rigidbody2D rb;
 
@@ -28,6 +28,21 @@ public class PlayerScript : MonoBehaviour
     private AudioSource audioSource;
     private BoxCollider2D boxCollider;
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Piso")
+        {
+            isFloor = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Piso")
+        {
+            isFloor = false;
+        }
+    }
     private void Start()
     {
         boxCollider = GetComponent<BoxCollider2D>();
@@ -35,7 +50,11 @@ public class PlayerScript : MonoBehaviour
 
     void Update()
     {
-        ClickJump();
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            ClickJump();
+        }
+
     }
 
     public void clickLeft()
@@ -66,10 +85,10 @@ public class PlayerScript : MonoBehaviour
 
     public void ClickJump()
     {
-        if (!isJumping)
+        if (isFloor)
         {
+            isFloor = false;
             isJumping = true;
-            isJump = true;
         }
     }
 
@@ -87,6 +106,7 @@ public class PlayerScript : MonoBehaviour
     bool EstaEnElSuelo()
     {
         RaycastHit2D raycastHit = Physics2D.BoxCast(boxCollider.bounds.center, new Vector2(boxCollider.bounds.size.x, boxCollider.bounds.size.y), 0f, Vector2.down, 0.2f, capaSuelo);
+        
         return raycastHit.collider != null;
     }
 
@@ -104,13 +124,11 @@ public class PlayerScript : MonoBehaviour
             // audioManager.ReproducirSonido(sonidoMovimiento);
         }
 
-        if (isJump && EstaEnElSuelo())
+        if (isJumping)
         {
-            isJumping = true; // Establecer isJumping en true antes de saltar
+            isJumping = false;
             rb.AddForce(Vector2.up * salto, ForceMode2D.Impulse);
             audioManager.ReproducirSonido(sonidoSalto);
         }
-
-        isJumping = true; // Restablecer isJumping a false antes de verificar el salto
     }
 }
